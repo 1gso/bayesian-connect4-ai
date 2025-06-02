@@ -6,7 +6,7 @@ Provides a clean command-line interface for training the model.
 import os
 import sys
 import argparse
-# from pathlib import Path
+from pathlib import Path
 
 # Ensure we can import from src
 if __name__ == "__main__":

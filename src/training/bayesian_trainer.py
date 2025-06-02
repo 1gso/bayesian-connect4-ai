@@ -52,7 +52,7 @@ class CPUGPUBayesianTrainer:
 
         # File paths
         self.input_filename = os.path.join(
-            data_dir, "input", f"r139_{self.run_index}.txt"
+            data_dir,  f"r139_{self.run_index}.txt"
         )
         self.output_pattern = os.path.join(
             output_dir, f"sampling_parameters_23_xr{self.run_index}_{{:03d}}.txt"
@@ -400,7 +400,7 @@ class CPUGPUBayesianTrainer:
                 batch_data,
             )
 
-        return hmc_graph, iterator
+        return hmc_graph(), iterator
 
     def train(self) -> None:
         """Run the complete training process."""
