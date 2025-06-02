@@ -1,0 +1,173 @@
+Folder PATH listing
+Volume serial number is A8D8-4383
+C:.
+³   .gitignore
+³   create_batchie.bat
+³   environment.yml
+³   LICENSE
+³   README.md
+³   requirements.txt
+³   test_imports.py
+³   thetree.txt
+³   
+ÃÄÄÄ.idea
+³   ³   .gitignore
+³   ³   bayesian-connect4-ai.iml
+³   ³   misc.xml
+³   ³   modules.xml
+³   ³   vcs.xml
+³   ³   workspace.xml
+³   ³   
+³   ÀÄÄÄinspectionProfiles
+³           profiles_settings.xml
+³           
+ÃÄÄÄ.mypy_cache
+³   ³   .gitignore
+³   ³   CACHEDIR.TAG
+³   ³   missing_stubs
+³   ³   
+³   ÀÄÄÄ3.7
+³       ³   @plugins_snapshot.json
+³       ³   abc.data.json
+³       ³   abc.meta.json
+³       ³   argparse.data.json
+³       ³   argparse.meta.json
+³       ³   builtins.data.json
+³       ³   builtins.meta.json
+³       ³   codecs.data.json
+³       ³   codecs.meta.json
+³       ³   contextlib.data.json
+³       ³   contextlib.meta.json
+³       ³   dataclasses.data.json
+³       ³   dataclasses.meta.json
+³       ³   enum.data.json
+³       ³   enum.meta.json
+³       ³   genericpath.data.json
+³       ³   genericpath.meta.json
+³       ³   io.data.json
+³       ³   io.meta.json
+³       ³   ntpath.data.json
+³       ³   ntpath.meta.json
+³       ³   posixpath.data.json
+³       ³   posixpath.meta.json
+³       ³   re.data.json
+³       ³   re.meta.json
+³       ³   sre_compile.data.json
+³       ³   sre_compile.meta.json
+³       ³   sre_constants.data.json
+³       ³   sre_constants.meta.json
+³       ³   sre_parse.data.json
+³       ³   sre_parse.meta.json
+³       ³   subprocess.data.json
+³       ³   subprocess.meta.json
+³       ³   sys.data.json
+³       ³   sys.meta.json
+³       ³   time.data.json
+³       ³   time.meta.json
+³       ³   traceback.data.json
+³       ³   traceback.meta.json
+³       ³   types.data.json
+³       ³   types.meta.json
+³       ³   typing.data.json
+³       ³   typing.meta.json
+³       ³   typing_extensions.data.json
+³       ³   typing_extensions.meta.json
+³       ³   _ast.data.json
+³       ³   _ast.meta.json
+³       ³   _codecs.data.json
+³       ³   _codecs.meta.json
+³       ³   _collections_abc.data.json
+³       ³   _collections_abc.meta.json
+³       ³   _winapi.data.json
+³       ³   _winapi.meta.json
+³       ³   
+³       ÃÄÄÄcollections
+³       ³       abc.data.json
+³       ³       abc.meta.json
+³       ³       __init__.data.json
+³       ³       __init__.meta.json
+³       ³       
+³       ÃÄÄÄimportlib
+³       ³       abc.data.json
+³       ³       abc.meta.json
+³       ³       machinery.data.json
+³       ³       machinery.meta.json
+³       ³       __init__.data.json
+³       ³       __init__.meta.json
+³       ³       
+³       ÃÄÄÄos
+³       ³       path.data.json
+³       ³       path.meta.json
+³       ³       __init__.data.json
+³       ³       __init__.meta.json
+³       ³       
+³       ÃÄÄÄsrc
+³       ³   ³   __init__.data.json
+³       ³   ³   __init__.meta.json
+³       ³   ³   
+³       ³   ÃÄÄÄgame
+³       ³   ³       __init__.data.json
+³       ³   ³       __init__.meta.json
+³       ³   ³       
+³       ³   ÀÄÄÄtraining
+³       ³           __init__.data.json
+³       ³           __init__.meta.json
+³       ³           
+³       ÀÄÄÄ_typeshed
+³               __init__.data.json
+³               __init__.meta.json
+³               
+ÃÄÄÄdata
+³   ÃÄÄÄinput
+³   ÃÄÄÄmodels
+³   ÀÄÄÄresults
+ÃÄÄÄdocs
+ÃÄÄÄnotebooks
+ÃÄÄÄscripts
+³   ³   run_inference.py
+³   ³   train_model.py
+³   ³   
+³   ÃÄÄÄdata
+³   ³   ÀÄÄÄresults
+³   ³           reference.txt
+³   ³           
+³   ÀÄÄÄ__pycache__
+³           train_model.cpython-37.pyc
+³           
+ÃÄÄÄsrc
+³   ³   __init__.py
+³   ³   
+³   ÃÄÄÄgame
+³   ³   ³   board_processor.py
+³   ³   ³   feature_generator.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           board_processor.cpython-37.pyc
+³   ³           feature_generator.cpython-37.pyc
+³   ³           __init__.cpython-37.pyc
+³   ³           
+³   ÃÄÄÄinference
+³   ³       epsilon_greedy.py
+³   ³       game_player.py
+³   ³       __init__.py
+³   ³       
+³   ÃÄÄÄtraining
+³   ³   ³   bayesian_trainer.py
+³   ³   ³   model_utils.py
+³   ³   ³   __init__.py
+³   ³   ³   
+³   ³   ÀÄÄÄ__pycache__
+³   ³           bayesian_trainer.cpython-37.pyc
+³   ³           model_utils.cpython-37.pyc
+³   ³           __init__.cpython-37.pyc
+³   ³           
+³   ÃÄÄÄutils
+³   ³       __init__.py
+³   ³       
+³   ÀÄÄÄ__pycache__
+³           __init__.cpython-37.pyc
+³           
+ÀÄÄÄtests
+        __init__.py
+        
