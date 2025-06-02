@@ -11,7 +11,7 @@ import pandas as pd
 import tensorflow as tf
 import tensorflow_probability as tfp
 
-from .model_utils import BayesianDNN, normalize_features
+from .model_utils_tf2 import BayesianDNN, normalize_features
 
 tfd = tfp.distributions
 
@@ -95,12 +95,12 @@ class TF2BayesianTrainer:
             name="p_mean"
         )
         self.p_scale = tf.Variable(
-            tf.fill([self.num_model_parameters], self.initial_prior_scale),
+            tf.fill([self.num_model_parameters], tf.cast(self.initial_prior_scale, self.master_dtype)),
             trainable=False,
             name="p_scale"
         )
         self.step_size = tf.Variable(
-            self.initial_step_size,
+            tf.cast(self.initial_step_size, self.master_dtype),
             trainable=False,
             name="step_size"
         )
@@ -119,9 +119,13 @@ class TF2BayesianTrainer:
             except RuntimeError as e:
                 print(f"GPU configuration error: {e}")
 
-        # Set CPU parallelism
-        tf.config.threading.set_inter_op_parallelism_threads(0)
-        tf.config.threading.set_intra_op_parallelism_threads(0)
+        # Set CPU parallelism (only if not already initialized)
+        try:
+            tf.config.threading.set_inter_op_parallelism_threads(0)
+            tf.config.threading.set_intra_op_parallelism_threads(0)
+        except RuntimeError as e:
+            # TensorFlow already initialized, can't change threading
+            print(f"Note: {e}")
 
         # Set seeds
         current_time = int(time.time())
