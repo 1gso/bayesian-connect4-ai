@@ -303,21 +303,18 @@ class TF2BayesianTrainer:
         def target_log_prob_fn(params):
             return self.model_log_prob(observed_return, observed_features, params)
 
-        # Create HMC kernel
+        # Create basic HMC kernel
         hmc_kernel = tfp.mcmc.HamiltonianMonteCarlo(
             target_log_prob_fn=target_log_prob_fn,
             num_leapfrog_steps=self.leapfrog_steps,
             step_size=self.step_size,
         )
 
-        # Add step size adaptation
-        adaptive_hmc = tfp.mcmc.DualAveragingStepSizeAdaptation(
+        # Add step size adaptation - simplified version
+        adaptive_hmc = tfp.mcmc.SimpleStepSizeAdaptation(
             inner_kernel=hmc_kernel,
             num_adaptation_steps=self.num_burnin_steps,
             target_accept_prob=0.6,
-            step_size_setter_fn=lambda pkr, new_step_size: pkr._replace(step_size=new_step_size),
-            step_size_getter_fn=lambda pkr: pkr.step_size,
-            log_accept_prob_getter_fn=lambda pkr: pkr.log_accept_ratio,
         )
 
         # Sample from chain
@@ -337,12 +334,23 @@ class TF2BayesianTrainer:
         new_p_mean, new_p_var = tf.nn.moments(samples, axes=[0])
         new_p_scale = tf.math.maximum(tf.sqrt(new_p_var), 100.0)
 
-        # Update step size from adaptation
-        new_step_size = tf.math.maximum(
-            0.0001,
-            kernel_results.new_step_size if hasattr(kernel_results, 'new_step_size')
-            else kernel_results.inner_results.step_size
-        )
+        # Update step size from adaptation - handle different shapes
+        if hasattr(kernel_results, 'new_step_size'):
+            step_size_raw = kernel_results.new_step_size
+        elif hasattr(kernel_results, 'inner_results') and hasattr(kernel_results.inner_results, 'step_size'):
+            step_size_raw = kernel_results.inner_results.step_size
+        else:
+            # Fallback: keep current step size
+            step_size_raw = self.step_size
+
+        # Ensure step size is a scalar - take mean if it's an array
+        if tf.rank(step_size_raw) > 0:
+            new_step_size = tf.reduce_mean(step_size_raw)
+        else:
+            new_step_size = step_size_raw
+
+        new_step_size = tf.math.maximum(tf.cast(0.0001, self.master_dtype),
+                                       tf.cast(new_step_size, self.master_dtype))
 
         # Assign new values
         self.p_mean.assign(new_p_mean)
