@@ -132,7 +132,7 @@ class TF2BayesianTrainer:
         except RuntimeError as e:
             print(f"Note: {e}")
 
-        # Disable XLA for stability on Azure
+        # Disable XLA compilation (causes issues with tf.py_function)
         tf.config.optimizer.set_jit(False)
 
         # Configure GPU if available
@@ -262,7 +262,6 @@ class TF2BayesianTrainer:
 
             yield c.astype(self.master_dtype.as_numpy_dtype)
 
-    @tf.function(jit_compile=True)  # Enable XLA compilation
     def model_log_prob(
         self,
         ret: tf.Tensor,
@@ -286,15 +285,9 @@ class TF2BayesianTrainer:
             reinterpreted_batch_ndims=1
         )
 
-        # Normalize features
-        normalized_feat = tf.py_function(
-            lambda x: normalize_features(x.numpy(), method="power").astype(
-                self.master_dtype.as_numpy_dtype
-            ),
-            [feat],
-            self.master_dtype,
-        )
-        normalized_feat.set_shape(feat.shape)
+        # Use pure TensorFlow normalization instead of tf.py_function
+        # to avoid XLA compilation issues
+        feat_normalized = tf.sign(feat) * tf.pow(tf.abs(feat) / 4.0, 1.5)
 
         # Get model predictions
         mz = self.bdnn_model(normalized_feat, p)
