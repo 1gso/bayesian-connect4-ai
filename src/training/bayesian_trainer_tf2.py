@@ -108,7 +108,33 @@ class TF2BayesianTrainer:
         self._setup_tensorflow()
 
     def _setup_tensorflow(self) -> None:
-        """Setup TensorFlow 2.x configuration."""
+        """Setup TensorFlow 2.x configuration optimized for high-core Azure VMs."""
+        import os
+        import multiprocessing
+
+        # Detect available cores
+        cpu_count = multiprocessing.cpu_count()
+        print(f"Detected {cpu_count} CPU cores")
+
+        # Aggressive CPU threading configuration for Azure VMs
+        os.environ['OMP_NUM_THREADS'] = str(cpu_count)
+        os.environ['MKL_NUM_THREADS'] = str(cpu_count)
+        os.environ['TF_NUM_INTEROP_THREADS'] = str(cpu_count)
+        os.environ['TF_NUM_INTRAOP_THREADS'] = str(cpu_count)
+        os.environ['KMP_AFFINITY'] = 'granularity=fine,compact,1,0'
+        os.environ['KMP_BLOCKTIME'] = '0'
+        os.environ['KMP_SETTINGS'] = '1'
+
+        # Configure CPU threading aggressively
+        try:
+            tf.config.threading.set_inter_op_parallelism_threads(cpu_count)
+            tf.config.threading.set_intra_op_parallelism_threads(cpu_count)
+        except RuntimeError as e:
+            print(f"Note: {e}")
+
+        # Disable XLA for stability on Azure
+        tf.config.optimizer.set_jit(False)
+
         # Configure GPU if available
         gpus = tf.config.experimental.list_physical_devices('GPU')
         if gpus:
@@ -119,22 +145,16 @@ class TF2BayesianTrainer:
             except RuntimeError as e:
                 print(f"GPU configuration error: {e}")
 
-        # Set CPU parallelism (only if not already initialized)
-        try:
-            tf.config.threading.set_inter_op_parallelism_threads(0)
-            tf.config.threading.set_intra_op_parallelism_threads(0)
-        except RuntimeError as e:
-            # TensorFlow already initialized, can't change threading
-            print(f"Note: {e}")
-
         # Set seeds
         current_time = int(time.time())
         tf.random.set_seed(current_time)
         np.random.seed(current_time)
 
-        print("TensorFlow 2.x configured")
+        print(f"TensorFlow 2.x configured for {cpu_count}-core Azure VM")
         print(f"Model parameters: {self.num_model_parameters}")
         print(f"Eager execution: {tf.executing_eagerly()}")
+        print(f"Threading: inter_op={cpu_count}, intra_op={cpu_count}")
+        print(f"Environment: OMP_NUM_THREADS={cpu_count}")
 
     def load_data(self) -> None:
         """Load training data from file."""
@@ -242,7 +262,7 @@ class TF2BayesianTrainer:
 
             yield c.astype(self.master_dtype.as_numpy_dtype)
 
-    @tf.function
+    @tf.function(jit_compile=True)  # Enable XLA compilation
     def model_log_prob(
         self,
         ret: tf.Tensor,
