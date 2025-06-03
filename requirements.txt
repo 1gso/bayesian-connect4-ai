@@ -1,6 +1,23 @@
-tensorflow==1.15.0
-tensorflow-probability==0.8.0
-numpy==1.19.5
-pandas==1.3.5
-scipy==1.7.3
-protobuf==3.20.3
+# TensorFlow 2.x Requirements
+# Updated for TF2 conversion
+
+# Core ML/AI packages
+tensorflow>=2.10.0,<2.16.0
+tensorflow-probability>=0.18.0,<0.24.0
+
+# Data processing
+numpy>=1.21.0
+pandas>=1.4.0
+scipy>=1.7.0
+
+# Utilities
+protobuf>=3.19.0,<4.24.0
+
+# Development tools (optional)
+matplotlib>=3.5.0
+jupyter
+pytest
+black
+
+# Note: Use environment.yml for conda-based installation
+# This requirements.txt is for pip-only environments
