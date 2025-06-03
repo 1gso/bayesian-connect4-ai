@@ -1,18 +1,13 @@
-name: bayesian-hmc-tf2
+name: bayesian-tf2
 channels:
   - conda-forge
   - defaults
 dependencies:
   - python=3.9
-  - numpy>=1.21.0
-  - pandas>=1.4.0
-  - scipy>=1.7.0
-  - matplotlib>=3.5.0
-  - jupyter
-  - pytest
-  - black
+  - numpy=1.24.3
+  - pandas=2.0.3
+  - scipy=1.11.4
   - pip
   - pip:
-    - tensorflow>=2.10.0,<2.16.0
-    - tensorflow-probability>=0.18.0,<0.24.0
-    - protobuf>=3.19.0,<4.24.0
+    - tensorflow==2.11.0
+    - tensorflow-probability==0.19.0
