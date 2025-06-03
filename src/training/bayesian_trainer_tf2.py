@@ -290,7 +290,7 @@ class TF2BayesianTrainer:
         feat_normalized = tf.sign(feat) * tf.pow(tf.abs(feat) / 4.0, 1.5)
 
         # Get model predictions
-        mz = self.bdnn_model(normalized_feat, p)
+        mz = self.bdnn_model(feat_normalized, p)
 
         # Likelihood
         rv_observed = tfd.Normal(loc=mz, scale=self.likelihood_scale)
