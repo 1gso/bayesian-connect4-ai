@@ -133,7 +133,7 @@ class TF2BayesianTrainer:
             print(f"Note: {e}")
 
         # Disable XLA compilation (causes issues with tf.py_function)
-        tf.config.optimizer.set_jit(False)
+        tf.config.optimizer.set_jit(True)
 
         # Configure GPU if available
         gpus = tf.config.experimental.list_physical_devices('GPU')
