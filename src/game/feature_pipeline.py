@@ -130,7 +130,7 @@ class ParallelPositionProcessor:
         sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
         
         # Import the PositionCodeProcessor we already have
-        from position_processor import PositionCodeProcessor
+        from src.game.position_processor import PositionCodeProcessor
         
         # Each worker creates its own processor instance
         processor = PositionCodeProcessor()
