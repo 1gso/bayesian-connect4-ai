@@ -287,7 +287,19 @@ class TF2BayesianTrainer:
 
         # Use pure TensorFlow normalization instead of tf.py_function
         # to avoid XLA compilation issues
-        feat_normalized = tf.sign(feat) * tf.pow(tf.abs(feat) / 4.0, 1.5)
+        # feat_normalized = tf.sign(feat) * tf.pow(tf.abs(feat) / 4.0, 1.5)
+        # In model_log_prob method, replace:
+        # feat_normalized = tf.sign(feat) * tf.pow(tf.abs(feat) / 4.0, 1.5)
+
+        # With:
+        feat_normalized = tf.py_function(
+            lambda x: normalize_features(x.numpy(), method="power").astype(
+                self.master_dtype.as_numpy_dtype
+            ),
+            [feat],
+            self.master_dtype,
+        )
+        feat_normalized.set_shape(feat.shape)
 
         # Get model predictions
         mz = self.bdnn_model(feat_normalized, p)

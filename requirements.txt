@@ -18,6 +18,8 @@ matplotlib>=3.5.0
 jupyter
 pytest
 black
+h5py
+
 
 # Note: Use environment.yml for conda-based installation
 # This requirements.txt is for pip-only environments
